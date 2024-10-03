@@ -1,10 +1,9 @@
-import express from "express"
+import { app } from './app.js'
 import 'dotenv/config'
-// import routes from "./routes/routes.js"
 import connectDB from "./db/index.js"
 
-// const app = express()
-// const port = process.env.PORT
+
+const port = process.env.PORT || 4000
 
 
 // app.get('/',(req ,res) =>{
@@ -12,10 +11,17 @@ import connectDB from "./db/index.js"
 
 // })
 
-// app.listen(port , () =>{
-//     console.log(`Our Sever is running on this port ${port}`)
-// })
+
 
 // app.use('/', routes)
 
-connectDB()
+try {
+    await connectDB()
+    app.on()
+
+    app.listen(port , () =>{
+    console.log(`Our Sever is running on this port ${port}`)
+})
+} catch (error) {
+    console.log("MONGODB connection error !!!" , error)
+}
