@@ -6,14 +6,6 @@ import connectDB from "./db/index.js"
 const port = process.env.PORT || 4000
 
 
-// app.get('/',(req ,res) =>{
-//     res.send('Hello World')
-
-// })
-
-
-
-// app.use('/', routes)
 
 try {
     await connectDB()

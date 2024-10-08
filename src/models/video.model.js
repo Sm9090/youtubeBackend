@@ -38,4 +38,6 @@ const videoSchema = new Schema(
   { timestamps: true }
 );
 
+videoSchema.plugin(aggregatePaginate);
+
 export const Video = model("Video", videoSchema);
