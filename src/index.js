@@ -9,7 +9,7 @@ const port = process.env.PORT || 4000
 
 try {
     await connectDB()
-    app.on()
+    app.on("error" ,() => "app connection failed")
 
     app.listen(port , () =>{
     console.log(`Our Sever is running on this port ${port}`)
