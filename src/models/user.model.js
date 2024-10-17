@@ -50,8 +50,10 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
+  console.log("modified se pehle wala")
   if (!this.isModified("password")) return next();
-  this.password = bcyrpt.hash(this.password, 10);
+  console.log("bcyrpt pe aya")
+  this.password = await bcyrpt.hash(this.password, 10);
   next();
 });
 
