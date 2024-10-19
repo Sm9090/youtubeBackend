@@ -13,7 +13,6 @@ const uploadOnCloudinary = async (localFilePath) => {
     console.log("local file not found");
     return null;
   }
-  console.log("yaha tk aya");
   try {
     const uploadResult = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto",
