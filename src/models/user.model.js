@@ -50,9 +50,7 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  console.log("modified se pehle wala")
   if (!this.isModified("password")) return next();
-  console.log("bcyrpt pe aya")
   this.password = await bcyrpt.hash(this.password, 10);
   next();
 });
@@ -62,7 +60,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 };
 
 userSchema.methods.generateAccesToken = function(){
-  jwt.sign(
+  return jwt.sign(
     {
       _id: this._id,
       email: this.email,
@@ -77,7 +75,7 @@ userSchema.methods.generateAccesToken = function(){
 }
 
 userSchema.methods.generateRefreshToken = function(){
-  jwt.sign(
+  return jwt.sign(
     {
       _id: this._id,
     },

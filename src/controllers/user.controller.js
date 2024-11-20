@@ -4,14 +4,12 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudnary.service.js";
 import fs from "fs";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import cookie from 'cookie-parser'
 
 const generateAccesAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
     const accessToken = user.generateAccesToken();
     const refreshToken = user.generateRefreshToken();
-
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
 
@@ -86,7 +84,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const { email, password, userName } = req.body;
 
-  if (!userName || !email) {
+  if (!(userName || email)) {
     throw new ApiError(400, "username or password is required");
   }
   const user = await User.findOne({
@@ -108,7 +106,7 @@ const loginUser = asyncHandler(async (req, res) => {
   );
 
   const loggedInUser = await User.findById(user._id).select(
-    "-password -refreshToken"
+    "-password -refreshToken -accessToken"
   );
 
   const options = {
@@ -123,7 +121,7 @@ const loginUser = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        { user: loggedInUser, accessToken, refreshToken },
+        { user: loggedInUser },
         "User logged in Successfully"
       )
     );
@@ -152,4 +150,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     .clearCookie("refreshToken", options)
     .json(new ApiResponse(200 , {}, "User logged Out"))
 });
+
+const refreshAccessToken = asyncHandler(async (req ,res) =>{
+  
+})
 export { registerUser, loginUser , logoutUser };
